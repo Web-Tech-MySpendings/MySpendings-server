@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({ extended: true }));     // support encoded bodie
 app.use(bodyParser.json());                             // support json encoded bodies
 
 // routes
-
+app.use("/", (req, res) => {
+    res.send("Hello, its the MySpendings server!");
+});
 
 const PORT = process.env.PORT || cfg.server.port;
 db.initDb.then(() => {
