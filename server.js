@@ -1,5 +1,5 @@
 // imports
-let cfg = require('./config.json')      // config file
+let cfg = require('./config.json')      // config file, not accesible via repo because of sensitive
 let express = require('express');       // express module
 let cors = require('cors');             // cross origin requests (localhost -> localhost:3000)
 const db = require("./db");             // database connector
