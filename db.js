@@ -6,12 +6,8 @@ let client;
 let initDb = new Promise((resolve, reject) => {
 
     client = new Client({
-        // host: cfg.database.host,
-        // user: cfg.database.user,
-        // password: cfg.database.password,
-        // database: cfg.database.db
-        // connectionString: process.env.DATABASE_URL,
-        // password: process.env.DB_PW
+        connectionString: process.env.DATABASE_URL,
+        password: process.env.DB_PW
     });
 
     client.connect((err) => {
