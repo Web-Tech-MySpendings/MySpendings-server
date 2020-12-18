@@ -12,3 +12,12 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));     // support encoded bodies
 app.use(bodyParser.json());                             // support json encoded bodies
 
+// routes
+
+
+const PORT = process.env.PORT || cfg.server.port;
+db.initDb.then(() => {
+    app.listen(PORT, () => {
+        console.log("Listening on port " + PORT + "...");
+    });
+}, () => { console.log("Failed to connect to DB!") });

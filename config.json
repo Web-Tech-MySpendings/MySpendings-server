@@ -1,0 +1,16 @@
+{
+    "database": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "db": ""
+    },
+    "server": {
+        "host": "https://my-spendings-server.herokuapp.com",
+        "port": 8080
+    },
+    "auth": {
+        "jwt_key": "secret",
+        "expiration": "1h"
+    }
+}
