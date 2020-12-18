@@ -34,7 +34,7 @@ router.post('/:email/:pass', (req, res) => {
             // everything ok
             resultUser = resultRows[0];
             let id = resultUser.id;
-            let key = cfg.auth.jwt_key;
+            let key = process.env.JWT_KEY;
             let expire = cfg.auth.expiration;
             const token = jwt.sign({ userID: id }, key, { expiresIn: expire, algorithm: "HS256" });
             res.status(200).json({

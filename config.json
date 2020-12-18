@@ -1,16 +1,9 @@
 {
-    "database": {
-        "host": "ec2-54-75-199-252.eu-west-1.compute.amazonaws.com",
-        "user": "oobrcnoufpzmis",
-        "password": "da181671e4570f628e6dda3e5eb4e518f17ce7c1bcd4b2f8e6c82bf41da02c95",
-        "db": "d6pqfmf48do8p7"
-    },
     "server": {
         "host": "https://my-spendings-server.herokuapp.com",
         "port": 8080
     },
     "auth": {
-        "jwt_key": "myCompletelyRandomKey",
         "expiration": "0.2h"
     }
 }
