@@ -10,7 +10,7 @@
         "port": 8080
     },
     "auth": {
-        "jwt_key": "secret",
-        "expiration": "1h"
+        "jwt_key": "myCompletelyRandomKey",
+        "expiration": "0.2h"
     }
 }
