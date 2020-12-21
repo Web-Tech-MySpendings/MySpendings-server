@@ -29,7 +29,7 @@ router.post('', (req, res) => {
 
             // everything ok
             resultUser = resultRows[0];
-            const id = resultUser.id;
+            const id = resultUser.uid;
             const key = process.env.JWT_KEY;
             const tokenLife = cfg.auth.tokenLife;
             const token = jwt.sign({ userID: id }, key, { expiresIn: tokenLife, algorithm: "HS256" });

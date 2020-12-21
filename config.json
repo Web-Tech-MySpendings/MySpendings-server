@@ -4,7 +4,6 @@
         "port": 8080
     },
     "auth": {
-        "tokenLife": 900,
-        "refreshTokenLife": 86400
+        "tokenLife": 900
     }
 }

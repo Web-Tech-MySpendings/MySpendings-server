@@ -14,10 +14,16 @@ app.use(bodyParser.json());                             // support json encoded 
 
 // routes
 const loginRoute = require('./routes/login');
+const tokenRoute = require('./routes/token');
+const registerRoute = require('./routes/register');
+
 app.use("/login", loginRoute);
+app.use("/token", tokenRoute);
+app.use("/register", registerRoute);
+
 
 app.use("/", (req, res) => {
-    res.send("Hello, its the MySpendings server!");
+    res.send("Hello, its MySpendings server!");
 });
 
 const PORT = process.env.PORT || cfg.server.port;
