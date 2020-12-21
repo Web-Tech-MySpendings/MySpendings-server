@@ -38,21 +38,22 @@ function verifyHash(req, res, next) {
             }
             hash = results.rows[0].password;
             req.body.userData = results.rows[0];
+            bcrypt.compare(pass, hash, (err, isMatch) => {
+                if (err) {
+                    console.log(err);
+                    res.status(301).json({ message: "failed during hash verification" })
+                } else if (!isMatch) {
+                    console.log(err);
+                    res.status(302).json({ message: "password is not correct" })
+                } else {
+                    next();
+                }
+            });
         })
         .catch(() => {
             res.status(501).json({ message: "failed getting data from database" });
         });
-    bcrypt.compare(pass, hash, (err, isMatch) => {
-        if (err) {
-            console.log(err);
-            res.status(301).json({ message: "failed during hash verification" })
-        } else if (!isMatch) {
-            console.log(err);
-            res.status(302).json({ message: "password is not correct" })
-        } else {
-            next();
-        }
-    });
+
 }
 
 module.exports = {

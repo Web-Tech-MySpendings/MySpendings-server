@@ -19,17 +19,16 @@ router.post("/", checkNewUser, hash.createHash, (req, res) => {
             console.log("NextID: " + results.rows[0].max)
             if (results.rows[0].max != null) nextID = parseInt(results.rows[0].max) + 1;
             else nextID = 1; // if no returns then first user is added
+            db.query(queries.insertUser(nextID, email, password, name))
+                .then(() => {
+                    res.status(200).json({ message: "registration completed" });
+                })
+                .catch(() => {
+                    res.status(500).json({ message: "inserting user error occured" });
+                });
         })
         .catch(() => {
             res.status(500).json({ message: "database error occured" });
-        })
-
-    db.query(queries.insertUser(nextID, email, password, name))
-        .then(() => {
-            res.status(200).json({ message: "registration completed" });
-        })
-        .catch(() => {
-            res.status(500).json({ message: "inserting user error occured" });
         })
 
 })
