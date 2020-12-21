@@ -32,18 +32,14 @@ function verifyHash(req, res, next) {
             let resultRows = results.rows;
             // no results
             if (resultRows.length < 1) {
-                res.status(400).json({
-                    "message": "login failed"
-                });
+                res.status(400).json({ message: "login failed" });
             }
             hash = results.rows[0].password;
             req.body.userData = results.rows[0];
             bcrypt.compare(pass, hash, (err, isMatch) => {
                 if (err) {
-                    console.log(err);
                     res.status(301).json({ message: "failed during hash verification" })
                 } else if (!isMatch) {
-                    console.log(err);
                     res.status(302).json({ message: "password is not correct" })
                 } else {
                     next();

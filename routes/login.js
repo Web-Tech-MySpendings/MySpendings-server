@@ -10,7 +10,7 @@ const hash = require('../middleware/hash');
 
 router.post('', hash.verifyHash, (req, res) => {
 
-    console.log("logging in user...");
+    console.log("logging in user " + req.body.userData.uid);
 
     // everything ok
     resultUser = req.body.userData;

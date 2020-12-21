@@ -13,12 +13,11 @@ router.post("/", checkNewUser, hash.createHash, (req, res) => {
     const name = req.body.name;
     const password = req.body.password;
     let nextID;
-    console.log(req.body);
     db.query(queries.getUniqueID())
         .then(results => {
-            console.log("NextID: " + results.rows[0].max)
             if (results.rows[0].max != null) nextID = parseInt(results.rows[0].max) + 1;
             else nextID = 1; // if no returns then first user is added
+            console.log("NextID: " + results.rows[0].max)
             db.query(queries.insertUser(nextID, email, password, name))
                 .then(() => {
                     res.status(200).json({ message: "registration completed" });
