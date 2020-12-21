@@ -17,7 +17,7 @@ router.post('', (req, res) => {
     const email = req.body.email;
     let pass;
 
-    bcrypt.hash(req.body.password, 10)
+    bcrypt.hash(req.body.password)
         .then(pw => { pass = pw })
         .catch(res.status(501).json({ message: "error hashing password" }));
 
