@@ -12,7 +12,7 @@ router.post("/", checkNewUser, (req, res) => {
     const email = req.body.email;
     const name = req.body.name;
     let password;
-    bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.genSaltSync(10, (err, salt) => {
         if (err) {
             console.log(err);
         } else {
@@ -28,8 +28,8 @@ router.post("/", checkNewUser, (req, res) => {
     let nextID;
     db.query(queries.getUniqueID())
         .then(results => {
-            console.log(results.rows)
-            if (results.rows.length = 1) nextID = parseInt(results.rows[0].max) + 1;
+            console.log(results.rows[0].max)
+            if (results.rows[0].max != null) nextID = parseInt(results.rows[0].max) + 1;
             else nextID = 1; // if no returns then first user is added
         })
         .catch(() => {
