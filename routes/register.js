@@ -19,10 +19,10 @@ router.post("/", checkNewUser, (req, res) => {
     db.query(queries.getUniqueID())
         .then(results => {
             if (results.rows.length = 1) nextID = results.rows[0].uid + 1;
-            else nextID = 1; // if no returns then first user is added
+            else res.status(500).json({ message: "database error occured" });
         })
         .catch(() => {
-            res.status(500).json({ message: "database error occured" });
+            nextID = 1; // if no returns then first user is added
         })
     // insert new user into db
     db.query(queries.insertUser(nextID, email))
