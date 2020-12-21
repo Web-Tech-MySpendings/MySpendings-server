@@ -5,11 +5,11 @@ const getDb = require("../database/db").getDb;
 const jwt = require('jsonwebtoken');
 const queries = require('../database/queries');
 const refresh = require('../util/getRefreshToken');
-const bcrypt = require('bcrypt');
+const hash = require('../middleware/hash');
 
 
 
-router.post('', (req, res) => {
+router.post('', hash.verifyHash, (req, res) => {
     const db = getDb();
 
     // get login parameters
@@ -23,29 +23,19 @@ router.post('', (req, res) => {
         .then(results => {
 
             let resultRows = results.rows;
-
             // no results
             if (resultRows.length < 1) {
                 res.status(400).json({
                     "message": "login failed"
                 });
-                return;
             }
-            let password = results.rows[0].password;
-            let compare = comparePassword(pass, password);
-            console.log(compare);
-            if (!compare) {
-                res.status(400).json({
-                    "message": "login failed"
-                })
-            }
+
             // everything ok
             resultUser = resultRows[0];
             const id = resultUser.uid;
             const key = process.env.JWT_KEY;
             const tokenLife = cfg.auth.tokenLife;
             const token = jwt.sign({ userID: id }, key, { expiresIn: tokenLife, algorithm: "HS256" });
-            let refreshToken;
             // get refreshToken from database
             refresh.getRefreshToken(id)
                 .then(refreshToken => {
@@ -75,10 +65,5 @@ router.post('', (req, res) => {
         });
 
 });
-
-async function comparePassword(pass, hash) {
-    const isValid = await bcrypt.compare(pass, hash);
-    return isValid;
-}
 
 module.exports = router;
