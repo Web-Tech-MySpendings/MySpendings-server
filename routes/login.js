@@ -4,7 +4,7 @@ const router = express.Router();
 const getDb = require("../database/db").getDb;
 const jwt = require('jsonwebtoken');
 const queries = require('../database/queries');
-const refresh = require('../authorization/getRefreshToken');
+const refresh = require('../middleware/getRefreshToken');
 
 router.post('', (req, res) => {
     const db = getDb();

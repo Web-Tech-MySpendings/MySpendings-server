@@ -4,7 +4,6 @@ const router = express.Router();
 const getDb = require("../database/db").getDb;
 const jwt = require('jsonwebtoken');
 const queries = require('../database/queries');
-const refresh = require('../authorization/getRefreshToken');
 const { json } = require('body-parser');
 
 

@@ -1,3 +1,4 @@
+
 function login(email, password) {
     return {
         text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
@@ -22,6 +23,23 @@ function checkToken(refreshToken) {
         values: [refreshToken]
     }
 }
+function insertUser(uid, email, password, name) {
+    return {
+        text: 'INSERT INTO users(uid, email, password, name) VALUES($1, $2, $3, $4)',
+        values: [uid, email, password, name]
+    }
+}
+function getUniqueID() {
+    return {
+        text: 'SELECT MAX(uid) FROM users',
+    }
+}
+function checkNewUser(email) {
+    return {
+        text: 'SELECT * FROM users WHERE users.email = $1',
+        values: [email]
+    }
+}
 
 
 
@@ -31,5 +49,8 @@ module.exports = {
     getRefreshToken,
     createToken,
     checkToken,
+    insertUser,
+    getUniqueID,
+    checkNewUser,
 
 }   
