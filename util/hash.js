@@ -1,16 +1,7 @@
 const bcrypt = require('bcrypt');
 
 function encrypt(pw) {
-
-    return new Promise((resolve, reject) => {
-        bcrypt.hash(pw, 10)
-            .then(hashedPw => {
-                resolve(hashedPw);
-            })
-            .catch(() => {
-                reject();
-            })
-    })
+    return bcrypt.hash(pw, 10);
 }
 
 module.exports = {
