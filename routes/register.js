@@ -12,9 +12,18 @@ router.post("/", checkNewUser, (req, res) => {
     const email = req.body.email;
     const name = req.body.name;
     let password;
-    await bcrypt.hash(req.body.password, 10, (pw) => {
-        password = pw;
-        console.log(pw);
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            console.log(err);
+        } else {
+            bcrypt.hash(req.body.password, salt, (err, hash) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    password = pw;
+                }
+            })
+        }
     })
     let nextID;
     db.query(queries.getUniqueID())
@@ -27,7 +36,6 @@ router.post("/", checkNewUser, (req, res) => {
             res.status(500).json({ message: "database error occured" });
         })
     // insert new user into db
-    console.log(req.body);
     console.log(nextID);
     console.log(email);
     console.log(password);
