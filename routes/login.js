@@ -14,7 +14,9 @@ router.post('', (req, res) => {
     // get login parameters
     const email = req.body.email;
     let pass;
-    encrypt(req.body.password).then(pw => { pass = pw }).catch(res.status(501).json({ message: "error hashing password" }));
+    encrypt(req.body.password)
+        .then(pw => { pass = pw })
+        .catch(res.status(501).json({ message: "error hashing password" }));
     console.log("logging in user...");
 
     // issue query (returns promise)
@@ -62,13 +64,12 @@ router.post('', (req, res) => {
         })
         .catch(error => {
             // error accessing db
-            if (error) {
-                res.status(500).json({
-                    "message": "error ocurred"
-                });
-                console.log(error.stack);
-                return;
-            }
+            res.status(500).json({
+                "message": "error ocurred"
+            });
+            console.log(error.stack);
+            return;
+
         });
 
 });
