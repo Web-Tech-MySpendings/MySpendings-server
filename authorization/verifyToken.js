@@ -1,11 +1,11 @@
-let cfg = require('./config.json')
+let cfg = require('../config.json')
 const jwt = require('jsonwebtoken');
 
 
 module.exports = (req, res, next) => {
     let token = req.headers.authorization;
     try {
-        let token = jwt.verify(token, cfg.auth.jwt_key);
+        let token = jwt.verify(token, process.env.JWT_KEY);
         req.userData.userID = token.userID;
         next();
     } catch (error) {

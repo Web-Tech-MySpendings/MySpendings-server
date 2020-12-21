@@ -1,31 +1,27 @@
 let cfg = require('../config.json')
 const express = require('express');
 const router = express.Router();
-const getDb = require("../db").getDb;
+const getDb = require("../database/db").getDb;
 const jwt = require('jsonwebtoken');
+const queries = require('../database/queries');
+const refresh = require('../authorization/getRefreshToken');
 
-router.post('/:email/:pass', (req, res) => {
+router.post('', (req, res) => {
     const db = getDb();
 
     // get login parameters
     const email = req.body.email;
     const pass = req.body.pass;
 
-    // prepare query
-    const query = {
-        text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
-        values: [email, pass]
-    }
-
     // issue query (returns promise)
-    db.query(query)
+    db.query(queries.login(email, pass))
         .then(results => {
 
             resultRows = results.rows;
 
             // no results
             if (resultRows.length < 1) {
-                res.status(401).json({
+                res.status(400).json({
                     "message": "login failed"
                 });
                 return;
@@ -33,22 +29,37 @@ router.post('/:email/:pass', (req, res) => {
 
             // everything ok
             resultUser = resultRows[0];
-            let id = resultUser.id;
-            let key = process.env.JWT_KEY;
-            let expire = cfg.auth.expiration;
-            const token = jwt.sign({ userID: id }, key, { expiresIn: expire, algorithm: "HS256" });
+            const id = resultUser.id;
+            const key = process.env.JWT_KEY;
+            const tokenLife = cfg.auth.tokenLife;
+            const token = jwt.sign({ userID: id }, key, { expiresIn: tokenLife, algorithm: "HS256" });
+            const refreshToken;
+            // get refreshToken from database
+            refresh.getRefreshToken(id)
+                .then(token => {
+                    refreshToken = token;
+                })
+                .catch(() => {
+                    res.status(500).json({
+                        "message": "error ocurred"
+                    });
+                    console.log(error.stack);
+                    return;
+                });
+
             res.status(200).json({
                 "message": "login successful",
                 first_name: resultUser.first_name,
                 last_name: resultUser.last_name,
-                token: token
+                token: token,
+                refreshToken: refreshToken
             });
 
         })
         .catch(error => {
             // error accessing db
             if (error) {
-                res.status(400).json({
+                res.status(500).json({
                     "message": "error ocurred"
                 });
                 console.log(error.stack);

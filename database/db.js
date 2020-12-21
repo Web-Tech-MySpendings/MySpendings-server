@@ -1,4 +1,4 @@
-let cfg = require('./config.json')
+let cfg = require('../config.json')
 const { Client } = require('pg');
 
 let client;

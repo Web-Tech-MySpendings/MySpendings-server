@@ -2,7 +2,7 @@
 let cfg = require('./config.json')      // config file
 let express = require('express');       // express module
 let cors = require('cors');             // cross origin requests (localhost -> localhost:3000)
-const db = require("./db");             // database connector
+const db = require("./database/db");             // database connector
 
 const app = express();
 app.use(cors());                        // allow all origins -> Access-Control-Allow-Origin: *
@@ -13,6 +13,9 @@ app.use(bodyParser.urlencoded({ extended: true }));     // support encoded bodie
 app.use(bodyParser.json());                             // support json encoded bodies
 
 // routes
+const loginRoute = require('./routes/login');
+app.use("/login", loginRoute);
+
 app.use("/", (req, res) => {
     res.send("Hello, its the MySpendings server!");
 });
