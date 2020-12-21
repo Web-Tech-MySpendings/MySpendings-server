@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
     db.query(queries.checkNewUser(req.body.email))
         .then(results => {
             if (results.rows.length == 0) {
+                console.log(req.body);
                 next();
             } else {
                 res.status(403).json({ message: "email already in use" })

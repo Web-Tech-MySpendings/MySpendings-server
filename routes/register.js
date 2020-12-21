@@ -25,6 +25,7 @@ router.post("/", checkNewUser, (req, res) => {
             res.status(500).json({ message: "database error occured" });
         })
     // insert new user into db
+    console.log(req.body);
     console.log(nextID);
     console.log(email);
     console.log(password);
