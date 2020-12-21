@@ -33,6 +33,7 @@ router.post('', (req, res) => {
             }
             let password = results.rows[0].password;
             let compare = comparePassword(pass, password);
+            console.log(compare);
             if (!compare) {
                 res.status(400).json({
                     "message": "login failed"
@@ -61,8 +62,6 @@ router.post('', (req, res) => {
                         "message": "error ocurred"
                     });
                 });
-
-
 
         })
         .catch(error => {
