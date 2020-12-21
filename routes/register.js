@@ -11,9 +11,9 @@ router.post("/", checkNewUser, (req, res) => {
     const db = getDb();
     const email = req.body.email;
     const name = req.body.name;
-    const password;
+    let password;
     encrypt(req.body.password).then(pw => { password = pw }).catch(res.status(501).json({ message: "internal server error" }));
-    const nextID;
+    let nextID;
     db.query(queries.getUniqueID())
         .then(results => {
             if (results.rows.length = 1) nextID = results.rows[0].uid + 1;
