@@ -14,11 +14,13 @@ router.post("/", checkNewUser, (req, res) => {
     let password;
     bcrypt.hash(req.body.password, 10, (pw) => {
         password = pw;
+        console.log(pw);
     })
     let nextID;
     db.query(queries.getUniqueID())
         .then(results => {
-            if (results.rows.length = 1) nextID = results.rows[0].uid + 1;
+            log(results.rows)
+            if (results.rows.length = 1) nextID = parseInt(results.rows[0].uid) + 1;
             else nextID = 1; // if no returns then first user is added
         })
         .catch(() => {
