@@ -11,7 +11,7 @@ router.post("/", checkNewUser, (req, res) => {
     const db = getDb();
     const email = req.body.email;
     const name = req.body.name;
-    let password = await bcrypt.hash(req.body.password, 10);
+    let password = bcrypt.hash(req.body.password, 10);
 
     let nextID;
     db.query(queries.getUniqueID())
