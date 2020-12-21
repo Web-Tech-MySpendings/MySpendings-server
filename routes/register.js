@@ -32,4 +32,4 @@ router.post("/", checkNewUser, (req, res) => {
         })
 })
 
-
+module.exports = router;
