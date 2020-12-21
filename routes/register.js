@@ -31,7 +31,7 @@ router.post("/", checkNewUser, (req, res) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    password = pw;
+                    password = hash;
                     db.query(queries.insertUser(nextID, email, password, name))
                         .then(() => {
                             res.status(200).json({ message: "registration completed" });
@@ -43,12 +43,6 @@ router.post("/", checkNewUser, (req, res) => {
             })
         }
     })
-    // insert new user into db
-    console.log(nextID);
-    console.log(email);
-    console.log(password);
-    console.log(name);
-
 
 })
 
