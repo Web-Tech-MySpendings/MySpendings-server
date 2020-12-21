@@ -15,7 +15,8 @@ router.post('', (req, res) => {
     const email = req.body.email;
     let pass;
     encrypt(req.body.password).then(pw => { pass = pw }).catch(res.status(501).json({ message: "internal server error" }));
-
+    console.log("logging in user...");
+    
     // issue query (returns promise)
     db.query(queries.login(email, pass))
         .then(results => {
