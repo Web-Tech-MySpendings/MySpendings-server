@@ -24,6 +24,7 @@ function createHash(req, res, next) {
 
 function verifyHash(req, res, next) {
     const db = getDb();
+    const email = req.body.email;
     const pass = req.body.password;
     let hash;
     db.query(queries.login(email))
@@ -36,6 +37,7 @@ function verifyHash(req, res, next) {
                 });
             }
             hash = results.rows[0].password;
+            req.body.userData = results.rows[0];
         });
     bcrypt.compare(pass, hash, (err, isMatch) => {
         if (err) {
