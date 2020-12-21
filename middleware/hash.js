@@ -38,6 +38,9 @@ function verifyHash(req, res, next) {
             }
             hash = results.rows[0].password;
             req.body.userData = results.rows[0];
+        })
+        .catch(() => {
+            res.status(501).json({ message: "failed getting data from database" });
         });
     bcrypt.compare(pass, hash, (err, isMatch) => {
         if (err) {
