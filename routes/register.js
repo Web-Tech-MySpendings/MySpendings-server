@@ -11,15 +11,12 @@ router.post("/", checkNewUser, (req, res) => {
     const db = getDb();
     const email = req.body.email;
     const name = req.body.name;
-    let password;
-    bcrypt.hash(req.body.password, 10, (pw) => {
-        password = pw;
-        console.log(pw);
-    })
+    let password = await bcrypt.hash(req.body.password, 10);
+
     let nextID;
     db.query(queries.getUniqueID())
         .then(results => {
-            log(results.rows)
+            console.log(results.rows)
             if (results.rows.length = 1) nextID = parseInt(results.rows[0].uid) + 1;
             else nextID = 1; // if no returns then first user is added
         })
