@@ -32,7 +32,7 @@ router.post('', (req, res) => {
                 return;
             }
             let password = results.rows[0].password;
-            let compare = await comparePassword(pass, password);
+            let compare = comparePassword(pass, password);
             console.log(compare);
             if (!compare) {
                 res.status(400).json({
@@ -77,7 +77,8 @@ router.post('', (req, res) => {
 });
 
 async function comparePassword(pass, hash) {
-    return await bcrypt.compare(pass, hash);
+    const isValid = await bcrypt.compare(pass, hash);
+    return isValid;
 }
 
 module.exports = router;
