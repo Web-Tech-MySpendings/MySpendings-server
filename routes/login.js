@@ -14,21 +14,7 @@ router.post('', (req, res) => {
 
     // get login parameters
     const email = req.body.email;
-    let pass;
-
-    bcrypt.genSaltSync(10, (err, salt) => {
-        if (err) {
-            console.log(err);
-        } else {
-            bcrypt.hash(req.body.password, salt, (err, hash) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    pass = hash;
-                }
-            })
-        }
-    })
+    let pass = await getHash(req.body.password);
 
     console.log("logging in user...");
 
@@ -86,5 +72,21 @@ router.post('', (req, res) => {
         });
 
 });
+
+async function getHash(pw) {
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            console.log(err);
+        } else {
+            bcrypt.hash(pw, salt, (err, hash) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    return hash;
+                }
+            })
+        }
+    })
+}
 
 module.exports = router;
