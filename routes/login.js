@@ -47,24 +47,22 @@ router.post('', (req, res) => {
             let refreshToken;
             // get refreshToken from database
             refresh.getRefreshToken(id)
-                .then(token => {
-                    refreshToken = token;
+                .then(refreshToken => {
+                    res.status(200).json({
+                        "message": "login successful",
+                        name: resultUser.name,
+                        email: resultUser.email,
+                        token: token,
+                        refreshToken: refreshToken
+                    });
                 })
                 .catch(() => {
                     res.status(500).json({
                         "message": "error ocurred"
                     });
-                    console.log(error.stack);
-                    return;
                 });
 
-            res.status(200).json({
-                "message": "login successful",
-                name: resultUser.name,
-                email: resultUser.email,
-                token: token,
-                refreshToken: refreshToken
-            });
+
 
         })
         .catch(error => {
