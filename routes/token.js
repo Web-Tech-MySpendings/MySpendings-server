@@ -12,7 +12,7 @@ router.post('', (req, res) => {
     const db = getDb();
     const refreshToken = req.headers.authorization;
 
-    db.query(queries.checkToken(refreshToken))
+    db.query(queries.checkToken(refreshToken, req.body.email))
         .then(results => {
             const resultRows = results.rows;
             if (resultRows.length != 1) {

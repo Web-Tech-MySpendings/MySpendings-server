@@ -17,10 +17,10 @@ function createToken(uid, refreshToken) {
         values: [uid, refreshToken]
     }
 }
-function checkToken(refreshToken) {
+function checkToken(refreshToken, email) {
     return {
-        text: 'SELECT t.refreshtoken, t.uid FROM token t, users u WHERE t.refreshtoken = $1 AND t.uid = u.uid',
-        values: [refreshToken]
+        text: 'SELECT t.refreshtoken, t.uid FROM token t, users u WHERE t.refreshtoken = $1 AND u.email = $2 AND t.uid = u.uid',
+        values: [refreshToken, email]
     }
 }
 function insertUser(uid, email, password, name) {
