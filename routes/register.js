@@ -12,7 +12,7 @@ router.post("/", checkNewUser, (req, res) => {
     const email = req.body.email;
     const name = req.body.name;
     let password;
-    encrypt(req.body.password).then(pw => { password = pw }).catch(res.status(501).json({ message: "internal server error" }));
+    encrypt(req.body.password).then(pw => { password = pw }).catch(res.status(501).json({ message: "error hashing password" }));
     let nextID;
     db.query(queries.getUniqueID())
         .then(results => {
