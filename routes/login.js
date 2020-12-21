@@ -32,7 +32,7 @@ router.post('', (req, res) => {
                 return;
             }
             let password = results.rows[0].password;
-            let compare = comparePassword(pass, password);
+            let compare = await comparePassword(pass, password);
             console.log(compare);
             if (!compare) {
                 res.status(400).json({
