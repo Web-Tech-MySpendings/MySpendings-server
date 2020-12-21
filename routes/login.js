@@ -58,8 +58,8 @@ router.post('', (req, res) => {
 
             res.status(200).json({
                 "message": "login successful",
-                first_name: resultUser.first_name,
-                last_name: resultUser.last_name,
+                name: resultUser.name,
+                email: resultUser.email,
                 token: token,
                 refreshToken: refreshToken
             });

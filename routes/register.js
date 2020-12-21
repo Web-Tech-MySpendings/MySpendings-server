@@ -19,7 +19,8 @@ router.post("/", checkNewUser, (req, res) => {
     db.query(queries.getUniqueID())
         .then(results => {
             if (results.rows.length = 1) nextID = results.rows[0].uid + 1;
-            else res.status(500).json({ message: "database error occured" });
+            console.log("more than 1 max ids found");
+            //else res.status(500).json({ message: "database error occured" });
         })
         .catch(() => {
             nextID = 1; // if no returns then first user is added
@@ -30,7 +31,7 @@ router.post("/", checkNewUser, (req, res) => {
             res.status(200).json({ message: "registration completed" });
         })
         .catch(() => {
-            res.status(500).json({ message: "database error occured" });
+            res.status(500).json({ message: "inserting user error occured" });
         })
 })
 
