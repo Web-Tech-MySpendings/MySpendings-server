@@ -4,14 +4,17 @@ const router = express.Router();
 const getDb = require("../database/db").getDb;
 const jwt = require('jsonwebtoken');
 const queries = require('../database/queries');
-const refresh = require('../middleware/getRefreshToken');
+const refresh = require('../util/getRefreshToken');
+const encrypt = require('../util/hash').encrypt;
+
 
 router.post('', (req, res) => {
     const db = getDb();
 
     // get login parameters
     const email = req.body.email;
-    const pass = req.body.pass;
+    const pass;
+    encrypt(req.body.password).then(pw => { pass = pw }).catch(res.status(501).json({ message: "internal server error" }));
 
     // issue query (returns promise)
     db.query(queries.login(email, pass))

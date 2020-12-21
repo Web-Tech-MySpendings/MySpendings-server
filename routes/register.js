@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 const getDb = require("../database/db").getDb;
 const queries = require('../database/queries');
-const bcrypt = require('bcrypt');
 const checkNewUser = require('../middleware/checkNewUser');
+const encrypt = require('../util/hash').encrypt;
 
 
 router.post("/", checkNewUser, (req, res) => {
@@ -12,7 +12,7 @@ router.post("/", checkNewUser, (req, res) => {
     const email = req.body.email;
     const name = req.body.name;
     const password;
-    encrypt(req.body.password, 10).then(pw => { password = pw }).catch(res.status(501).json({ message: "internal server error" }));
+    encrypt(req.body.password).then(pw => { password = pw }).catch(res.status(501).json({ message: "internal server error" }));
     const nextID;
     db.query(queries.getUniqueID())
         .then(results => {
@@ -33,13 +33,3 @@ router.post("/", checkNewUser, (req, res) => {
 })
 
 
-function encrypt(pw, salt) {
-    return new Promise((resolve, reject) => {
-        try {
-            const hashedPw = bcrypt.hash(pw, salt);
-            resolve(hashedPw);
-        } catch (error) {
-            reject();
-        }
-    })
-}
