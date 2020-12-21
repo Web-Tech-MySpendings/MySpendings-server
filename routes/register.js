@@ -4,7 +4,7 @@ const router = express.Router();
 const getDb = require("../database/db").getDb;
 const queries = require('../database/queries');
 const checkNewUser = require('../middleware/checkNewUser');
-const encrypt = require('../util/hash').encrypt;
+const bcrypt = require('bcrypt');
 
 
 router.post("/", checkNewUser, (req, res) => {
@@ -12,7 +12,9 @@ router.post("/", checkNewUser, (req, res) => {
     const email = req.body.email;
     const name = req.body.name;
     let password;
-    encrypt(req.body.password).then(pw => { password = pw }).catch(res.status(501).json({ message: "error hashing password" }));
+    bcrypt.hash(req.body.password, 10, (pw) => {
+        password = pw;
+    })
     let nextID;
     db.query(queries.getUniqueID())
         .then(results => {

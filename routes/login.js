@@ -5,7 +5,6 @@ const getDb = require("../database/db").getDb;
 const jwt = require('jsonwebtoken');
 const queries = require('../database/queries');
 const refresh = require('../util/getRefreshToken');
-const encrypt = require('../util/hash').encrypt;
 const bcrypt = require('bcrypt');
 
 
@@ -20,12 +19,6 @@ router.post('', (req, res) => {
     bcrypt.hash(req.body.password, 10, (pw) => {
         pass = pw;
     })
-    // .then(pw => { pass = pw })
-    // .catch(res.status(501).json({ message: "error hashing password" }));
-
-    // encrypt()
-    //     .then(pw => { pass = pw })
-    //     .catch(res.status(501).json({ message: "error hashing password" }));
 
     console.log("logging in user...");
 
