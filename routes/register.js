@@ -19,14 +19,13 @@ router.post("/", checkNewUser, (req, res) => {
     db.query(queries.getUniqueID())
         .then(results => {
             if (results.rows.length = 1) nextID = results.rows[0].uid + 1;
-            console.log("more than 1 max ids found");
-            //else res.status(500).json({ message: "database error occured" });
+            else nextID = 1; // if no returns then first user is added
         })
         .catch(() => {
-            nextID = 1; // if no returns then first user is added
+            res.status(500).json({ message: "database error occured" });
         })
     // insert new user into db
-    db.query(queries.insertUser(nextID, email))
+    db.query(queries.insertUser(nextID, email, password, name))
         .then(() => {
             res.status(200).json({ message: "registration completed" });
         })
