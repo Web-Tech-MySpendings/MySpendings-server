@@ -17,6 +17,7 @@ router.post('', (req, res) => {
     encrypt(req.body.password)
         .then(pw => { pass = pw })
         .catch(res.status(501).json({ message: "error hashing password" }));
+        
     console.log("logging in user...");
 
     // issue query (returns promise)
