@@ -16,7 +16,7 @@ router.post('', (req, res) => {
     const email = req.body.email;
     let pass;
 
-    bcrypt.genSaltSync(10, (err, salt) => {
+    bcrypt.genSalt(10, (err, salt) => {
         if (err) {
             console.log(err);
         } else {
