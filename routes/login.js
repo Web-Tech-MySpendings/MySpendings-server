@@ -16,8 +16,18 @@ router.post('', (req, res) => {
     const email = req.body.email;
     let pass;
 
-    bcrypt.hash(req.body.password, 10, (pw) => {
-        pass = pw;
+    bcrypt.genSaltSync(10, (err, salt) => {
+        if (err) {
+            console.log(err);
+        } else {
+            bcrypt.hash(req.body.password, salt, (err, hash) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    pass = hash;
+                }
+            })
+        }
     })
 
     console.log("logging in user...");
