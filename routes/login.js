@@ -13,7 +13,7 @@ router.post('', (req, res) => {
 
     // get login parameters
     const email = req.body.email;
-    const pass;
+    let pass;
     encrypt(req.body.password).then(pw => { pass = pw }).catch(res.status(501).json({ message: "internal server error" }));
 
     // issue query (returns promise)
@@ -36,7 +36,7 @@ router.post('', (req, res) => {
             const key = process.env.JWT_KEY;
             const tokenLife = cfg.auth.tokenLife;
             const token = jwt.sign({ userID: id }, key, { expiresIn: tokenLife, algorithm: "HS256" });
-            const refreshToken;
+            let refreshToken;
             // get refreshToken from database
             refresh.getRefreshToken(id)
                 .then(token => {
