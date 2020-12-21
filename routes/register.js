@@ -11,20 +11,6 @@ router.post("/", checkNewUser, (req, res) => {
     const db = getDb();
     const email = req.body.email;
     const name = req.body.name;
-    let password;
-    bcrypt.genSaltSync(10, (err, salt) => {
-        if (err) {
-            console.log(err);
-        } else {
-            bcrypt.hash(req.body.password, salt, (err, hash) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    password = pw;
-                }
-            })
-        }
-    })
     let nextID;
     db.query(queries.getUniqueID())
         .then(results => {
@@ -35,19 +21,35 @@ router.post("/", checkNewUser, (req, res) => {
         .catch(() => {
             res.status(500).json({ message: "database error occured" });
         })
+
+    let password;
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            console.log(err);
+        } else {
+            bcrypt.hash(req.body.password, salt, (err, hash) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    password = pw;
+                    db.query(queries.insertUser(nextID, email, password, name))
+                        .then(() => {
+                            res.status(200).json({ message: "registration completed" });
+                        })
+                        .catch(() => {
+                            res.status(500).json({ message: "inserting user error occured" });
+                        })
+                }
+            })
+        }
+    })
     // insert new user into db
     console.log(nextID);
     console.log(email);
     console.log(password);
     console.log(name);
 
-    db.query(queries.insertUser(nextID, email, password, name))
-        .then(() => {
-            res.status(200).json({ message: "registration completed" });
-        })
-        .catch(() => {
-            res.status(500).json({ message: "inserting user error occured" });
-        })
+
 })
 
 module.exports = router;
