@@ -1,8 +1,8 @@
 
-function login(email, password) {
+function login(email) {
     return {
-        text: 'SELECT * FROM users WHERE email = $1 AND password = $2',
-        values: [email, password]
+        text: 'SELECT * FROM users WHERE email = $1',
+        values: [email]
     }
 }
 function getRefreshToken(uid) {
