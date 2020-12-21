@@ -25,7 +25,7 @@ function checkToken(refreshToken) {
 }
 function insertUser(uid, email, password, name) {
     return {
-        text: 'INSERT INTO users(uid, email, password, name) VALUES($1, $2, $3, $4)',
+        text: 'INSERT INTO users (uid, email, password, name) VALUES ($1, $2, $3, $4)',
         values: [uid, email, password, name]
     }
 }
