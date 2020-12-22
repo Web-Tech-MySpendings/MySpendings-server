@@ -17,8 +17,9 @@ function getRefreshToken(uid) {
                         .catch(error => {
                             reject();
                         })
+                } else {
+                    resolve(resultRows[0].refreshtoken);
                 }
-                resolve(resultRows[0].refreshtoken);
             })
             .catch(error => {
                 reject();

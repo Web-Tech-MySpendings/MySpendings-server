@@ -10,8 +10,6 @@ const hash = require('../middleware/hash');
 
 router.post('', hash.verifyHash, (req, res) => {
 
-    console.log("logging in user " + req.body.userData.uid);
-
     // everything ok
     resultUser = req.body.userData;
     const id = resultUser.uid;
@@ -21,6 +19,7 @@ router.post('', hash.verifyHash, (req, res) => {
     // get refreshToken from database
     refresh.getRefreshToken(id)
         .then(refreshToken => {
+            console.log("logging in user " + req.body.userData.uid);
             res.status(200).json({
                 "message": "login successful",
                 name: resultUser.name,
