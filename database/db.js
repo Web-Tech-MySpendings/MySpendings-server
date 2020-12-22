@@ -7,7 +7,8 @@ let initDb = new Promise((resolve, reject) => {
 
     client = new Client({
         connectionString: process.env.DATABASE_URL,
-        password: process.env.DB_PW
+        password: process.env.DB_PW,
+        ssl: true
     });
 
     client.connect((err) => {

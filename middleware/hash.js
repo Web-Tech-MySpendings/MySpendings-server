@@ -33,14 +33,17 @@ function verifyHash(req, res, next) {
             // no results
             if (resultRows.length < 1) {
                 res.status(400).json({ message: "login failed" });
+                return;
             }
             hash = results.rows[0].password;
             req.body.userData = results.rows[0];
             bcrypt.compare(pass, hash, (err, isMatch) => {
                 if (err) {
-                    res.status(301).json({ message: "failed during hash verification" })
+                    res.status(301).json({ message: "failed during hash verification" });
+                    return;
                 } else if (!isMatch) {
-                    res.status(302).json({ message: "password is not correct" })
+                    res.status(302).json({ message: "password is not correct" });
+                    return;
                 } else {
                     next();
                 }
@@ -48,6 +51,7 @@ function verifyHash(req, res, next) {
         })
         .catch(() => {
             res.status(501).json({ message: "failed getting data from database" });
+            return;
         });
 
 }
