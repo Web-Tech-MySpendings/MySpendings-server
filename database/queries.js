@@ -105,6 +105,32 @@ function deleteInfo(sid) {
         values: [sid]
     }
 }
+function updateSpending(uid, sid, key, value) {
+    if (key == "value") {
+        return {
+            text: 'UPDATE spendings SET value = $3 WHERE uid = $1 AND sid = $2',
+            values: [uid, sid, value]
+        }
+    }
+    if (key == "date") {
+        return {
+            text: 'UPDATE spendings SET date = $3 WHERE uid = $1 AND sid = $2',
+            values: [uid, sid, value]
+        }
+    }
+    if (key == "type") {
+        return {
+            text: 'UPDATE info SET type = $3 FROM spendings WHERE spendings.uid = $1 AND info.sid = $2 AND spendings.sid = info.sid',
+            values: [uid, sid, value]
+        }
+    }
+    if (key == "comment") {
+        return {
+            text: 'UPDATE info SET comment = $3 FROM spendings WHERE spendings.uid = $1 AND info.sid = $2 AND spendings.sid = info.sid',
+            values: [uid, sid, value]
+        }
+    }
+}
 
 
 module.exports = {
@@ -126,5 +152,6 @@ module.exports = {
     deleteSpending,
     deleteInfo,
     insertInfo,
+    updateSpending,
 
 }   
