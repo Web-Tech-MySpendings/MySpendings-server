@@ -46,6 +46,12 @@ function getAllSpendings(uid) {
         values: [uid]
     }
 }
+function getOneSpending(uid, sid) {
+    return {
+        text: 'SELECT * FROM spendings WHERE uid = $1 AND sid = $2',
+        values: [uid, sid]
+    }
+}
 function filterDate(uid, lower, upper) {
     return {
         text: 'SELECT * FROM spendings WHERE uid = $1 AND date >= $2 AND date <= $3',
@@ -64,8 +70,41 @@ function filterType(uid, type) {
         values: [uid, type]
     }
 }
-
-
+function getInfo(uid, sid) {
+    return {
+        text: 'SELECT i.type, i.comment FROM info i, spendings s WHERE s.uid = $1 AND s.sid = $2 AND s.sid = i.sid',
+        values: [uid, sid]
+    }
+}
+function getNextSID() {
+    return {
+        text: 'SELECT MAX(sid) FROM spendings',
+    }
+}
+function insertSpending(uid, sid, value, date) {
+    return {
+        text: 'INSERT INTO spendings(uid, sid, value, date) VALUES($1, $2, $3, DATE $4)',
+        values: [uid, sid, value, date]
+    }
+}
+function insertInfo(sid, type, comment) {
+    return {
+        text: 'INSERT INTO info(sid, type, comment) VALUES($1, $2, $3)',
+        values: [sid, type, comment]
+    }
+}
+function deleteSpending(uid, sid) {
+    return {
+        text: 'DELETE FROM spendings WHERE uid = $1 AND sid = $2',
+        values: [uid, sid]
+    }
+}
+function deleteInfo(sid) {
+    return {
+        text: 'DELETE FROM info WHERE sid = $1',
+        values: [sid]
+    }
+}
 
 
 module.exports = {
@@ -77,8 +116,15 @@ module.exports = {
     getUniqueID,
     checkNewUser,
     getAllSpendings,
+    getOneSpending,
     filterDate,
     filterValue,
     filterType,
-    
+    getInfo,
+    insertSpending,
+    getNextSID,
+    deleteSpending,
+    deleteInfo,
+    insertInfo,
+
 }   

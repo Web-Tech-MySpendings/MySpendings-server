@@ -18,12 +18,16 @@ const tokenRoute = require('./routes/token');
 const registerRoute = require('./routes/register');
 const spendingsRoute = require('./routes/spendings');
 const filterRoute = require('./routes/filter');
+const updateRoute = require('./routes/update');
+const addDeleteRoute = require('./routes/alter');
 
 app.use("/login", loginRoute);
 app.use("/token", tokenRoute);
 app.use("/register", registerRoute);
 app.use("/spendings", spendingsRoute);
 app.use("/filter", filterRoute);
+app.use("/alter", addDeleteRoute);
+app.use("/update", updateRoute);
 
 app.use("/", (req, res) => {
     res.send("Hello, its MySpendings server!");
