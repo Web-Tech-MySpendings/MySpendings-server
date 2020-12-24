@@ -40,6 +40,30 @@ function checkNewUser(email) {
         values: [email]
     }
 }
+function getAllSpendings(uid) {
+    return {
+        text: 'SELECT * FROM spendings WHERE uid = $1',
+        values: [uid]
+    }
+}
+function filterDate(uid, lower, upper) {
+    return {
+        text: 'SELECT * FROM spendings WHERE uid = $1 AND date >= $2 AND date <= $3',
+        values: [uid, lower, upper]
+    }
+}
+function filterValue(uid, lower, upper) {
+    return {
+        text: 'SELECT * FROM spendings WHERE uid = $1 AND value >= $2 AND value <= $3',
+        values: [uid, lower, upper]
+    }
+}
+function filterType(uid, type) {
+    return {
+        text: 'SELECT s.sid, s.value, s.date, i.type FROM spendings s, info i WHERE s.uid = $1 AND s.sid = i.sid AND i.type = type',
+        values: [uid, type]
+    }
+}
 
 
 
@@ -52,5 +76,9 @@ module.exports = {
     insertUser,
     getUniqueID,
     checkNewUser,
-
+    getAllSpendings,
+    filterDate,
+    filterValue,
+    filterType,
+    
 }   

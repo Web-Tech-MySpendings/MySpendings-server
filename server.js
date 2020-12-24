@@ -16,11 +16,14 @@ app.use(bodyParser.json());                             // support json encoded 
 const loginRoute = require('./routes/login');
 const tokenRoute = require('./routes/token');
 const registerRoute = require('./routes/register');
+const spendingsRoute = require('./routes/spendings');
+const filterRoute = require('./routes/filter');
 
 app.use("/login", loginRoute);
 app.use("/token", tokenRoute);
 app.use("/register", registerRoute);
-
+app.use("/spendings", spendingsRoute);
+app.use("/filter", filterRoute);
 
 app.use("/", (req, res) => {
     res.send("Hello, its MySpendings server!");
