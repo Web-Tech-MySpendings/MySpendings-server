@@ -16,7 +16,7 @@ router.post('', (req, res) => {
         .then(results => {
             const resultRows = results.rows;
             if (resultRows.length != 1) {
-                res.status(401).json({ message: "authentification failed" });
+                res.status(402).json({ message: "authentification with refresh token failed" });
             } else {
                 const id = resultRows[0].uid;
                 const key = process.env.JWT_KEY;

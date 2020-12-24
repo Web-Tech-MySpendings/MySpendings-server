@@ -66,7 +66,7 @@ function filterValue(uid, lower, upper) {
 }
 function filterType(uid, type) {
     return {
-        text: 'SELECT s.sid, s.value, s.date, i.type FROM spendings s, info i WHERE s.uid = $1 AND s.sid = i.sid AND i.type = type',
+        text: 'SELECT s.sid, s.value, s.date, i.type FROM spendings s, info i WHERE s.uid = $1 AND s.sid = i.sid AND i.type = $2',
         values: [uid, type]
     }
 }
@@ -83,7 +83,7 @@ function getNextSID() {
 }
 function insertSpending(uid, sid, value, date) {
     return {
-        text: 'INSERT INTO spendings(uid, sid, value, date) VALUES($1, $2, $3, DATE $4)',
+        text: 'INSERT INTO spendings(uid, sid, value, date) VALUES($1, $2, $3, $4)',
         values: [uid, sid, value, date]
     }
 }

@@ -14,7 +14,7 @@ router.get("/value", verifyToken, (req, res) => {
     db.query(queries.filterValue(uid, lower, upper))
         .then(results => {
             resultRows = results.rows;
-            if (resultRows.lenght < 1) {
+            if (resultRows.length < 1) {
                 res.status(404).json({ message: "no entries found in given value range" });
             } else {
                 res.status(200).json(resultRows);
@@ -34,7 +34,7 @@ router.get("/date", verifyToken, (req, res) => {
     db.query(queries.filterDate(uid, lowerDate, upperDate))
         .then(results => {
             resultRows = results.rows;
-            if (resultRows.lenght < 1) {
+            if (resultRows.length < 1) {
                 res.status(404).json({ message: "no entries found in given date range" });
             } else {
                 res.status(200).json(resultRows);
@@ -54,7 +54,7 @@ router.get("/type", verifyToken, (req, res) => {
     db.query(queries.filterType(uid, type))
         .then(results => {
             resultRows = results.rows;
-            if (resultRows.lenght < 1) {
+            if (resultRows.length < 1) {
                 res.status(404).json({ message: "no entries found for given type" });
             } else {
                 res.status(200).json(resultRows);

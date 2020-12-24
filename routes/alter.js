@@ -7,7 +7,7 @@ const verifyToken = require('../middleware/verifyToken');
 
 router.put("/", verifyToken, (req, res) => {
     const db = getDb();
-    const uid = req.userData.uid;
+    const uid = req.userData.userID;
     const value = req.body.value;
     const date = req.body.date;
     const type = req.body.type;
@@ -17,6 +17,7 @@ router.put("/", verifyToken, (req, res) => {
         .then(results => {
             if (results.rows[0].max != null) nextSID = parseInt(results.rows[0].max) + 1;
             else nextSID = 1;
+            console.log(uid);
             db.query(queries.insertSpending(uid, nextSID, value, date))
                 .then(() => {
                     if (type !== undefined) {
@@ -31,7 +32,7 @@ router.put("/", verifyToken, (req, res) => {
                         res.status(200).json({ message: "inserted new spending" });
                     }
                 })
-                .catch(() => {
+                .catch((err) => {
                     res.status(501).json({ message: "could not insert new spending" })
                 })
         })
@@ -43,7 +44,7 @@ router.put("/", verifyToken, (req, res) => {
 
 router.delete("/", verifyToken, (req, res) => {
     const db = getDb();
-    const uid = req.userData.uid;
+    const uid = req.userData.userID;
     const sid = req.body.sid;
     db.query(queries.deleteSpending(uid, sid))
         .then(() => {

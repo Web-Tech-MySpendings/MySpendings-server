@@ -12,7 +12,7 @@ router.get("/", verifyToken, (req, res) => {
     db.query(queries.getAllSpendings(uid))
         .then(results => {
             resultRows = results.rows;
-            if (resultRows.lenght < 1) {
+            if (resultRows.length < 1) {
                 res.status(404).json({ message: "no entries found" });
             } else {
                 res.status(200).json(resultRows);
@@ -30,7 +30,7 @@ router.get("/:sid", verifyToken, (req, res) => {
     db.query(queries.getOneSpending(uid, sid))
         .then(results => {
             resultRows = results.rows;
-            if (resultRows.lenght < 1) {
+            if (resultRows.length < 1) {
                 res.status(404).json({ message: "no spending found" });
             } else {
                 res.status(200).json(resultRows[0]);
@@ -48,7 +48,7 @@ router.get("/info/:sid", verifyToken, (req, res) => {
     db.query(queries.getInfo(uid, sid))
         .then(results => {
             resultRows = results.rows;
-            if (resultRows.lenght < 1) {
+            if (resultRows.length < 1) {
                 res.status(404).json({ message: "no info entry for spending found" });
             } else {
                 res.status(200).json(resultRows[0]);
