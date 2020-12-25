@@ -7,7 +7,7 @@ const queries = require('../database/queries');
 const { json } = require('body-parser');
 
 
-router.post('', (req, res) => {
+router.get('', (req, res) => {
 
     const db = getDb();
     const refreshToken = req.headers.authorization;
