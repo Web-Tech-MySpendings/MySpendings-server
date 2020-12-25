@@ -41,23 +41,5 @@ router.get("/:sid", verifyToken, (req, res) => {
         });
 });
 
-router.get("/info/:sid", verifyToken, (req, res) => {
-    const db = getDb();
-    const uid = req.userData.userID;
-    const sid = req.params.sid;
-    db.query(queries.getInfo(uid, sid))
-        .then(results => {
-            resultRows = results.rows;
-            if (resultRows.length < 1) {
-                res.status(404).json({ message: "no info entry for spending found" });
-            } else {
-                res.status(200).json(resultRows[0]);
-            }
-        })
-        .catch(() => {
-            res.status(500).json({ message: "Error occured" });
-        });
-});
-
 
 module.exports = router;

@@ -5,24 +5,6 @@ function login(email) {
         values: [email]
     }
 }
-function getRefreshToken(uid) {
-    return {
-        text: 'SELECT * FROM token WHERE uid = $1',
-        values: [uid]
-    }
-}
-function createToken(uid, refreshToken) {
-    return {
-        text: 'INSERT INTO token(uid, refreshtoken) VALUES($1, $2)',
-        values: [uid, refreshToken]
-    }
-}
-function checkToken(refreshToken, email) {
-    return {
-        text: 'SELECT t.refreshtoken, t.uid FROM token t, users u WHERE t.refreshtoken = $1 AND u.email = $2 AND t.uid = u.uid',
-        values: [refreshToken, email]
-    }
-}
 function insertUser(uid, email, password, name) {
     return {
         text: 'INSERT INTO users (uid, email, password, name) VALUES ($1, $2, $3, $4)',
@@ -66,14 +48,14 @@ function filterValue(uid, lower, upper) {
 }
 function filterType(uid, type) {
     return {
-        text: 'SELECT s.sid, s.value, s.date, i.type FROM spendings s, info i WHERE s.uid = $1 AND s.sid = i.sid AND i.type = $2',
+        text: 'SELECT * FROM spendings WHERE uid = $1 AND type = $2',
         values: [uid, type]
     }
 }
-function getInfo(uid, sid) {
+function filterComment(uid, comment) {
     return {
-        text: 'SELECT i.type, i.comment FROM info i, spendings s WHERE s.uid = $1 AND s.sid = $2 AND s.sid = i.sid',
-        values: [uid, sid]
+        text: 'SELECT * FROM spendings WHERE uid = $1 AND type LIKE %$2%',
+        values: [uid, comment]
     }
 }
 function getNextSID() {
@@ -81,16 +63,10 @@ function getNextSID() {
         text: 'SELECT MAX(sid) FROM spendings',
     }
 }
-function insertSpending(uid, sid, value, date) {
+function insertSpending(uid, sid, value, date, type, comment) {
     return {
-        text: 'INSERT INTO spendings(uid, sid, value, date) VALUES($1, $2, $3, $4)',
-        values: [uid, sid, value, date]
-    }
-}
-function insertInfo(sid, type, comment) {
-    return {
-        text: 'INSERT INTO info(sid, type, comment) VALUES($1, $2, $3)',
-        values: [sid, type, comment]
+        text: 'INSERT INTO spendings(uid, sid, value, date, type, comment) VALUES($1, $2, $3, $4, $5, $6)',
+        values: [uid, sid, value, date, type, comment]
     }
 }
 function deleteSpending(uid, sid) {
@@ -99,45 +75,16 @@ function deleteSpending(uid, sid) {
         values: [uid, sid]
     }
 }
-function deleteInfo(sid) {
-    return {
-        text: 'DELETE FROM info WHERE sid = $1',
-        values: [sid]
-    }
-}
 function updateSpending(uid, sid, key, value) {
-    if (key == "value") {
-        return {
-            text: 'UPDATE spendings SET value = $3 WHERE uid = $1 AND sid = $2',
-            values: [uid, sid, value]
-        }
+    return {
+        text: `UPDATE spendings SET ${key} = $3 WHERE uid = $1 AND sid = $2`,
+        values: [uid, sid, value]
     }
-    if (key == "date") {
-        return {
-            text: 'UPDATE spendings SET date = $3 WHERE uid = $1 AND sid = $2',
-            values: [uid, sid, value]
-        }
-    }
-    if (key == "type") {
-        return {
-            text: 'UPDATE info SET type = $3 FROM spendings WHERE spendings.uid = $1 AND info.sid = $2 AND spendings.sid = info.sid',
-            values: [uid, sid, value]
-        }
-    }
-    if (key == "comment") {
-        return {
-            text: 'UPDATE info SET comment = $3 FROM spendings WHERE spendings.uid = $1 AND info.sid = $2 AND spendings.sid = info.sid',
-            values: [uid, sid, value]
-        }
-    }
-}
 
+}
 
 module.exports = {
     login,
-    getRefreshToken,
-    createToken,
-    checkToken,
     insertUser,
     getUniqueID,
     checkNewUser,
@@ -146,12 +93,10 @@ module.exports = {
     filterDate,
     filterValue,
     filterType,
-    getInfo,
     insertSpending,
     getNextSID,
     deleteSpending,
-    deleteInfo,
-    insertInfo,
     updateSpending,
+    filterComment,
 
 }   

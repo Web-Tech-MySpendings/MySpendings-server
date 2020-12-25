@@ -17,22 +17,11 @@ router.put("/", verifyToken, (req, res) => {
         .then(results => {
             if (results.rows[0].max != null) nextSID = parseInt(results.rows[0].max) + 1;
             else nextSID = 1;
-            console.log(uid);
-            db.query(queries.insertSpending(uid, nextSID, value, date))
+            db.query(queries.insertSpending(uid, nextSID, value, date, type, comment))
                 .then(() => {
-                    if (type !== undefined) {
-                        db.query(queries.insertInfo(nextSID, type, comment))
-                            .then(() => {
-                                res.status(200).json({ message: "inserted spending and additional info" });
-                            })
-                            .catch(() => {
-                                res.status(305).json({ message: "could not insert additional info" });
-                            })
-                    } else {
-                        res.status(200).json({ message: "inserted new spending" });
-                    }
+                    res.status(200).json({ message: "inserted spending" });
                 })
-                .catch((err) => {
+                .catch(() => {
                     res.status(501).json({ message: "could not insert new spending" })
                 })
         })
@@ -48,13 +37,7 @@ router.delete("/", verifyToken, (req, res) => {
     const sid = req.body.sid;
     db.query(queries.deleteSpending(uid, sid))
         .then(() => {
-            db.query(queries.deleteInfo(sid))
-                .then(() => {
-                    res.status(200).json({ message: "deleted spending and additional info" });
-                })
-                .catch(() => {
-                    res.status(305).json({ message: "error deleting additional info" });
-                })
+            res.status(200).json({ message: "deleted spending" });
         })
         .catch(() => {
             res.status(501).json({ message: "error deleting spending" });

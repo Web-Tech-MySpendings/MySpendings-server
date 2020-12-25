@@ -65,4 +65,23 @@ router.get("/type", verifyToken, (req, res) => {
         })
 });
 
+router.get("/comment", verifyToken, (req, res) => {
+    const db = getDb();
+    const uid = req.userData.userID;
+    const comment = req.body.comment;
+
+    db.query(queries.filterComment(uid, comment))
+        .then(results => {
+            resultRows = results.rows;
+            if (resultRows.length < 1) {
+                res.status(404).json({ message: "no entries found for given type" });
+            } else {
+                res.status(200).json(resultRows);
+            }
+        })
+        .catch(() => {
+            res.status(500).json({ message: "error accessing database" });
+        })
+});
+
 module.exports = router;

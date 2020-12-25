@@ -13,14 +13,19 @@ router.patch("/", verifyToken, (req, res) => {
     const key = req.body.key;
     const value = req.body.value;
 
-    db.query(queries.updateSpending(uid, sid, key, value))
-        .then(() => {
-            res.status(200).json({ message: "updated entry" });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(501).json({ message: "updating entry failed" });
-        })
+    if (key == "value" || key == "type" || key == "date" || key == "comment") {
+        db.query(queries.updateSpending(uid, sid, key, value))
+            .then(() => {
+                res.status(200).json({ message: "updated entry" });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(501).json({ message: "updating entry failed" });
+            })
+    }
+    else {
+        res.status(303).json({ message: "invalid update key" });
+    }
 })
 
 
