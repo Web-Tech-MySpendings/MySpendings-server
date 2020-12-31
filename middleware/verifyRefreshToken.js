@@ -9,6 +9,6 @@ module.exports = (req, res, next) => {
         req.userData = { userID: payLoad.userID };
         next();
     } catch (error) {
-        return res.status(401).json({ message: "Authentication with refreshtoken failed" });
+        return res.status(299).json({ message: "Authentication with refreshtoken failed" });
     }
 };
