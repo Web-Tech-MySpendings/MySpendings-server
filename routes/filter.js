@@ -7,13 +7,15 @@ const verifyToken = require("../middleware/verifyToken");
 
 router.get("/", verifyToken, (req, res) => {
   const db = getDb();
+  console.log(req.query.filterParams);
+  console.log(req.query.filterParams[0]);
 
   const uid = req.userData.userID;
-  const startDate = req.query.filterParams.startDate;
-  const endDate = req.query.filterParams.endDate;
-  const minValue = req.query.filterParams.minValue;
-  const maxValue = req.query.filterParams.maxValue;
-  const categories = req.query.filterParams.categories;
+  const startDate = req.query.filterParams[0].startDate;
+  const endDate = req.query.filterParams[0].endDate;
+  const minValue = req.query.filterParams[0].minValue;
+  const maxValue = req.query.filterParams[0].maxValue;
+  const categories = req.query.filterParams[0].categories;
 
   console.log(startDate);
   console.log(minValue);
