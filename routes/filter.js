@@ -7,9 +7,7 @@ const verifyToken = require("../middleware/verifyToken");
 
 router.get("/", verifyToken, (req, res) => {
   const db = getDb();
-  console.log(req.query.filterParams);
   const params = JSON.parse(req.query.filterParams);
-  console.log(params);
 
   const uid = req.userData.userID;
   const startDate = params.startDate;
@@ -17,10 +15,6 @@ router.get("/", verifyToken, (req, res) => {
   const minValue = params.minValue;
   const maxValue = params.maxValue;
   const categories = params.categories;
-
-  console.log(startDate);
-  console.log(minValue);
-  console.log(categories);
 
   db.query(
     queries.filter(uid, startDate, endDate, minValue, maxValue, categories)
@@ -42,8 +36,11 @@ router.get("/", verifyToken, (req, res) => {
 router.get("/value", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const lower = req.body.startDate;
-  const upper = req.body.endDate;
+  const params = JSON.parse(req.query.filterParams);
+
+  const uid = req.userData.userID;
+  const lower = params.minValue;
+  const upper = params.maxValue;
 
   db.query(queries.filterValue(uid, lower, upper))
     .then((results) => {
@@ -64,8 +61,11 @@ router.get("/value", verifyToken, (req, res) => {
 router.get("/date", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const lowerDate = req.body.startDate;
-  const upperDate = req.body.endDate;
+  const params = JSON.parse(req.query.filterParams);
+
+  const uid = req.userData.userID;
+  const lowerDate = params.startDate;
+  const upperDate = params.endDate;
 
   db.query(queries.filterDate(uid, lowerDate, upperDate))
     .then((results) => {
@@ -85,8 +85,10 @@ router.get("/date", verifyToken, (req, res) => {
 
 router.get("/type", verifyToken, (req, res) => {
   const db = getDb();
+  const params = JSON.parse(req.query.filterParams);
+
   const uid = req.userData.userID;
-  const type = req.body.categories;
+  const type = params.category;
 
   db.query(queries.filterType(uid, type))
     .then((results) => {
@@ -105,7 +107,10 @@ router.get("/type", verifyToken, (req, res) => {
 router.get("/comment", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const comment = req.body.comment;
+  const params = JSON.parse(req.query.filterParams);
+
+  const uid = req.userData.userID;
+  const comment = params.comment;
 
   db.query(queries.filterComment(uid, comment))
     .then((results) => {
