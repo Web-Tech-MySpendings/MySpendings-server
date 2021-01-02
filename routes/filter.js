@@ -15,7 +15,7 @@ router.get("/", verifyToken, (req, res) => {
   const maxValue = req.query.filterParams.maxValue;
   const categories = req.query.filterParams.categories;
 
-  console.log(statDate);
+  console.log(startDate);
   console.log(minValue);
   console.log(categories);
 
