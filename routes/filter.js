@@ -38,7 +38,6 @@ router.get("/value", verifyToken, (req, res) => {
   const uid = req.userData.userID;
   const params = JSON.parse(req.query.filterParams);
 
-  const uid = req.userData.userID;
   const lower = params.minValue;
   const upper = params.maxValue;
 
@@ -63,7 +62,6 @@ router.get("/date", verifyToken, (req, res) => {
   const uid = req.userData.userID;
   const params = JSON.parse(req.query.filterParams);
 
-  const uid = req.userData.userID;
   const lowerDate = params.startDate;
   const upperDate = params.endDate;
 
@@ -109,7 +107,6 @@ router.get("/comment", verifyToken, (req, res) => {
   const uid = req.userData.userID;
   const params = JSON.parse(req.query.filterParams);
 
-  const uid = req.userData.userID;
   const comment = params.comment;
 
   db.query(queries.filterComment(uid, comment))
