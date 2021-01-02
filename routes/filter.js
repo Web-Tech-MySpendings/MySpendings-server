@@ -10,11 +10,11 @@ router.get("/", verifyToken, (req, res) => {
   console.log(req.query);
 
   const uid = req.userData.userID;
-  const startDate = req.query.startDate;
-  const endDate = req.query.endDate;
-  const minValue = req.query.minValue;
-  const maxValue = req.query.maxValue;
-  const categories = req.query.categories;
+  const startDate = req.query.filterParams.startDate;
+  const endDate = req.query.filterParams.endDate;
+  const minValue = req.query.filterParams.minValue;
+  const maxValue = req.query.filterParams.maxValue;
+  const categories = req.query.filterParams.categories;
 
   db.query(
     queries.filter(uid, startDate, endDate, minValue, maxValue, categories)
