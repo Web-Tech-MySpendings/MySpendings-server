@@ -7,7 +7,6 @@ const verifyToken = require("../middleware/verifyToken");
 
 router.get("/", verifyToken, (req, res) => {
   const db = getDb();
-  console.log(req.query);
 
   const uid = req.userData.userID;
   const startDate = req.query.filterParams.startDate;
@@ -16,13 +15,17 @@ router.get("/", verifyToken, (req, res) => {
   const maxValue = req.query.filterParams.maxValue;
   const categories = req.query.filterParams.categories;
 
+  console.log(statDate);
+  console.log(minValue);
+  console.log(categories);
+
   db.query(
     queries.filter(uid, startDate, endDate, minValue, maxValue, categories)
   )
     .then((results) => {
       resultRows = results.rows;
       if (resultRows.length < 1) {
-        res.status(404).json({ message: "no entries found" });
+        res.status(200).json(resultRows);
       } else {
         res.status(200).json(resultRows);
       }
@@ -36,8 +39,8 @@ router.get("/", verifyToken, (req, res) => {
 router.get("/value", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const lower = req.body.lowerValue;
-  const upper = req.body.upperValue;
+  const lower = req.body.startDate;
+  const upper = req.body.endDate;
 
   db.query(queries.filterValue(uid, lower, upper))
     .then((results) => {
@@ -58,8 +61,8 @@ router.get("/value", verifyToken, (req, res) => {
 router.get("/date", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const lowerDate = req.body.lowerDate;
-  const upperDate = req.body.upperDate;
+  const lowerDate = req.body.startDate;
+  const upperDate = req.body.endDate;
 
   db.query(queries.filterDate(uid, lowerDate, upperDate))
     .then((results) => {
@@ -80,7 +83,7 @@ router.get("/date", verifyToken, (req, res) => {
 router.get("/type", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const type = req.body.type;
+  const type = req.body.categories;
 
   db.query(queries.filterType(uid, type))
     .then((results) => {
