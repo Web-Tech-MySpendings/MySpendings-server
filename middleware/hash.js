@@ -6,12 +6,12 @@ function createHash(req, res, next) {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       console.log(err);
-      res.status(300).json({ message: "generating hash failed" });
+      res.status(502).json({ message: "generating hash failed" });
     } else {
       bcrypt.hash(req.body.password, salt, (err, hash) => {
         if (err) {
           console.log(err);
-          res.status(300).json({ message: "generating hash failed" });
+          res.status(502).json({ message: "generating hash failed" });
         } else {
           req.body.password = hash;
           next();
@@ -38,10 +38,10 @@ function verifyHash(req, res, next) {
       req.body.userData = results.rows[0];
       bcrypt.compare(pass, hash, (err, isMatch) => {
         if (err) {
-          res.status(301).json({ message: "failed during hash verification" });
+          res.status(405).json({ message: "failed during hash verification" });
           return;
         } else if (!isMatch) {
-          res.status(302).json({ message: "password is not correct" });
+          res.status(402).json({ message: "password is not correct" });
           return;
         } else {
           next();
@@ -70,10 +70,10 @@ function verifyOldHash(req, res, next) {
       hash = results.rows[0].password;
       bcrypt.compare(pass, hash, (err, isMatch) => {
         if (err) {
-          res.status(301).json({ message: "failed during hash verification" });
+          res.status(405).json({ message: "failed during hash verification" });
           return;
         } else if (!isMatch) {
-          res.status(302).json({ message: "password is not correct" });
+          res.status(402).json({ message: "password is not correct" });
           return;
         } else {
           next();
