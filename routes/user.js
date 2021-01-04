@@ -22,8 +22,8 @@ router.get("/", verifyToken, (req, res) => {
 router.patch("/", verifyToken, hash.verifyOldHash, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const key = req.body.name;
-  const value = req.body.email;
+  const key = req.body.key;
+  const value = req.body.value;
 
   db.query(queries.updateUserData(uid, key, value))
     .then(() => {
