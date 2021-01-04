@@ -103,16 +103,10 @@ function changePw(uid, pw) {
     values: [uid, pw],
   };
 }
-function updateUserData(uid, name, email) {
+function updateUserData(uid, key, value) {
   return {
-    text: `UPDATE users SET name = $2, email = $3 WHERE uid = $1`,
-    values: [uid, name, email],
-  };
-}
-function getPW(uid) {
-  return {
-    text: "SELECT * FROM users WHERE uid = $1",
-    values: [uid],
+    text: `UPDATE users SET ${key} = $2 WHERE uid = $1`,
+    values: [uid, value],
   };
 }
 
@@ -135,5 +129,4 @@ module.exports = {
   getUserData,
   changePw,
   updateUserData,
-  getPW,
 };

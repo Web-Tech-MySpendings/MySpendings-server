@@ -22,10 +22,10 @@ router.get("/", verifyToken, (req, res) => {
 router.patch("/", verifyToken, hash.verifyOldHash, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const name = req.body.name;
-  const email = req.body.email;
+  const key = req.body.name;
+  const value = req.body.email;
 
-  db.query(queries.updateUserData(uid, name, email))
+  db.query(queries.updateUserData(uid, key, value))
     .then(() => {
       res.status(200).json({ message: "updated user data" });
     })

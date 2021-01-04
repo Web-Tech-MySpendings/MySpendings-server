@@ -59,7 +59,7 @@ function verifyOldHash(req, res, next) {
   const uid = req.userData.userID;
   const pass = req.body.oldPassword;
   let hash;
-  db.query(queries.getPW(uid))
+  db.query(queries.getUserData(uid))
     .then((results) => {
       let resultRows = results.rows;
       // no results
@@ -85,7 +85,6 @@ function verifyOldHash(req, res, next) {
       return;
     });
 }
-
 
 module.exports = {
   createHash,
