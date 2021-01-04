@@ -15,16 +15,13 @@ router.patch(
     const db = getDb();
     const uid = req.userData.userID;
     const pw = req.body.password;
-    db.query(
-      queries
-        .changePw(uid, pw)
-        .then(() => {
-          res.status(200).json({ message: "changed password" });
-        })
-        .catch(() => {
-          res.status(500).json({ message: "failed changing pw" });
-        })
-    );
+    db.query(queries.changePw(uid, pw))
+      .then(() => {
+        res.status(200).json({ message: "changed password" });
+      })
+      .catch(() => {
+        res.status(500).json({ message: "failed changing pw" });
+      });
   }
 );
 

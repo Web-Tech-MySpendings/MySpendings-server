@@ -8,17 +8,14 @@ const verifyToken = require("../middleware/verifyToken");
 router.get("/", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  db.query(
-    queries
-      .getUserData(uid)
-      .then((results) => {
-        const resultsRow = results.rows[0];
-        res.status(200).json(resultsRow);
-      })
-      .catch(() => {
-        res.status(500).json({ message: "Error occured" });
-      })
-  );
+  db.query(queries.getUserData(uid))
+    .then((results) => {
+      const resultsRow = results.rows[0];
+      res.status(200).json(resultsRow);
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Error occured" });
+    });
 });
 
 router.patch("/", verifyToken, (req, res) => {
@@ -27,16 +24,13 @@ router.patch("/", verifyToken, (req, res) => {
   const key = req.body.key;
   const value = req.body.value;
   if (key == "name" || key == "email") {
-    db.query(
-      queries
-        .updateUserData(uid, key, value)
-        .then(() => {
-          res.status(200).json({ message: "updated user data" });
-        })
-        .catch(() => {
-          res.status(500).json({ message: "Error occured" });
-        })
-    );
+    db.query(queries.updateUserData(uid, key, value))
+      .then(() => {
+        res.status(200).json({ message: "updated user data" });
+      })
+      .catch(() => {
+        res.status(500).json({ message: "Error occured" });
+      });
   }
 });
 
