@@ -91,6 +91,30 @@ function filter(uid, lowerDate, upperDate, minValue, maxValue, categories) {
     values: [uid, lowerDate, upperDate, minValue, maxValue, categories],
   };
 }
+function getUserData(uid) {
+  return {
+    text: "SELECT * FROM users WHERE uid = $1",
+    values: [uid],
+  };
+}
+function changePw(uid, pw) {
+  return {
+    text: "UPDATE users SET password = $2, WHERE uid = $1",
+    values: [uid, pw],
+  };
+}
+function updateUserData(uid, key, value) {
+  return {
+    text: `UPDATE users SET ${key} = $2 WHERE uid = $1`,
+    values: [uid, value],
+  };
+}
+function getPW(uid) {
+  return {
+    text: "SELECT * FROM users WHERE uid = $1",
+    values: [uid],
+  };
+}
 
 module.exports = {
   login,
@@ -108,4 +132,8 @@ module.exports = {
   updateSpending,
   filterComment,
   filter,
+  getUserData,
+  changePw,
+  updateUserData,
+  getPW,
 };
