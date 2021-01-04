@@ -99,7 +99,7 @@ function getUserData(uid) {
 }
 function changePw(uid, pw) {
   return {
-    text: "UPDATE users SET password = $2, WHERE uid = $1",
+    text: "UPDATE users SET password = $2 WHERE uid = $1",
     values: [uid, pw],
   };
 }
