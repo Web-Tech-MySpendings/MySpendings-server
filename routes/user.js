@@ -4,6 +4,7 @@ const router = express.Router();
 const getDb = require("../database/db").getDb;
 const queries = require("../database/queries");
 const verifyToken = require("../middleware/verifyToken");
+const hash = require("../middleware/hash");
 
 router.get("/", verifyToken, (req, res) => {
   const db = getDb();
@@ -18,20 +19,19 @@ router.get("/", verifyToken, (req, res) => {
     });
 });
 
-router.patch("/", verifyToken, (req, res) => {
+router.patch("/", verifyToken, hash.verifyOldHash, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const key = req.body.key;
-  const value = req.body.value;
-  if (key == "name" || key == "email") {
-    db.query(queries.updateUserData(uid, key, value))
-      .then(() => {
-        res.status(200).json({ message: "updated user data" });
-      })
-      .catch(() => {
-        res.status(500).json({ message: "Error occured" });
-      });
-  }
+  const name = req.body.name;
+  const email = req.body.email;
+
+  db.query(queries.updateUserData(uid, name, email))
+    .then(() => {
+      res.status(200).json({ message: "updated user data" });
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Error occured" });
+    });
 });
 
 module.exports = router;

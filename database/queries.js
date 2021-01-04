@@ -103,10 +103,10 @@ function changePw(uid, pw) {
     values: [uid, pw],
   };
 }
-function updateUserData(uid, key, value) {
+function updateUserData(uid, name, email) {
   return {
-    text: `UPDATE users SET ${key} = $2 WHERE uid = $1`,
-    values: [uid, value],
+    text: `UPDATE users SET name = $2, email = $3 WHERE uid = $1`,
+    values: [uid, name, email],
   };
 }
 function getPW(uid) {

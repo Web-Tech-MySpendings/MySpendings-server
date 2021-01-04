@@ -86,6 +86,7 @@ function verifyOldHash(req, res, next) {
     });
 }
 
+
 module.exports = {
   createHash,
   verifyHash,
