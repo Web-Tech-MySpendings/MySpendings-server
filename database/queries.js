@@ -24,7 +24,7 @@ function checkNewUser(email) {
 }
 function getAllSpendings(uid) {
   return {
-    text: "SELECT * FROM spendings WHERE uid = $1",
+    text: "SELECT * FROM spendings WHERE uid = $1 ORDER BY date asc",
     values: [uid],
   };
 }
@@ -37,14 +37,14 @@ function getOneSpending(uid, sid) {
 function filterDate(uid, lower, upper) {
   return {
     text:
-      "SELECT * FROM spendings WHERE uid = $1 AND date >= $2 AND date <= $3",
+      "SELECT * FROM spendings WHERE uid = $1 AND date >= $2 AND date <= $3 ORDER BY date asc",
     values: [uid, lower, upper],
   };
 }
 function filterValue(uid, lower, upper) {
   return {
     text:
-      "SELECT * FROM spendings WHERE uid = $1 AND value >= $2 AND value <= $3",
+      "SELECT * FROM spendings WHERE uid = $1 AND value >= $2 AND value <= $3 ORDER BY date asc",
     values: [uid, lower, upper],
   };
 }
@@ -87,7 +87,7 @@ function updateSpending(uid, sid, key, value) {
 function filter(uid, lowerDate, upperDate, minValue, maxValue, categories) {
   return {
     text:
-      "SELECT * FROM spendings WHERE uid = $1 AND date >= $2 AND date <= $3 AND value >= $4 AND value <= $5 AND type = ANY ($6::text[])",
+      "SELECT * FROM spendings WHERE uid = $1 AND date >= $2 AND date <= $3 AND value >= $4 AND value <= $5 AND type = ANY ($6::text[]) ORDER BY date asc",
     values: [uid, lowerDate, upperDate, minValue, maxValue, categories],
   };
 }
