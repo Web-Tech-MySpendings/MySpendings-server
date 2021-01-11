@@ -78,10 +78,10 @@ function deleteSpending(uid, sid) {
     values: [uid, sid],
   };
 }
-function updateSpending(uid, sid, key, value) {
+function updateSpending(uid, sid, date, value, type, comment) {
   return {
-    text: `UPDATE spendings SET ${key} = $3 WHERE uid = $1 AND sid = $2`,
-    values: [uid, sid, value],
+    text: `UPDATE spendings SET date = $3, value = $4, type = $5, comment = $6 WHERE uid = $1 AND sid = $2`,
+    values: [uid, sid, date, value, type, comment],
   };
 }
 function filter(uid, lowerDate, upperDate, minValue, maxValue, categories) {
