@@ -31,10 +31,10 @@ router.put("/", verifyToken, (req, res) => {
     });
 });
 
-router.delete("/", verifyToken, (req, res) => {
+router.delete("/:sid", verifyToken, (req, res) => {
   const db = getDb();
   const uid = req.userData.userID;
-  const sid = req.body.sid;
+  const sid = req.params.sid;
   db.query(queries.deleteSpending(uid, sid))
     .then(() => {
       res.status(200).json({ message: "deleted spending" });
