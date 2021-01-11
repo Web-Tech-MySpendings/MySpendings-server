@@ -21,11 +21,7 @@ router.get("/", verifyToken, (req, res) => {
   )
     .then((results) => {
       resultRows = results.rows;
-      if (resultRows.length < 1) {
-        res.status(200).json(resultRows);
-      } else {
-        res.status(200).json(resultRows);
-      }
+      res.status(200).json(resultRows);
     })
     .catch((err) => {
       console.log(err);
@@ -44,13 +40,7 @@ router.get("/value", verifyToken, (req, res) => {
   db.query(queries.filterValue(uid, lower, upper))
     .then((results) => {
       resultRows = results.rows;
-      if (resultRows.length < 1) {
-        res
-          .status(404)
-          .json({ message: "no entries found in given value range" });
-      } else {
-        res.status(200).json(resultRows);
-      }
+      res.status(200).json(resultRows);
     })
     .catch(() => {
       res.status(500).json({ message: "error accessing database" });
@@ -68,13 +58,8 @@ router.get("/date", verifyToken, (req, res) => {
   db.query(queries.filterDate(uid, lowerDate, upperDate))
     .then((results) => {
       resultRows = results.rows;
-      if (resultRows.length < 1) {
-        res
-          .status(404)
-          .json({ message: "no entries found in given date range" });
-      } else {
-        res.status(200).json(resultRows);
-      }
+
+      res.status(200).json(resultRows);
     })
     .catch(() => {
       res.status(500).json({ message: "error accessing database" });
@@ -91,11 +76,8 @@ router.get("/type", verifyToken, (req, res) => {
   db.query(queries.filterType(uid, type))
     .then((results) => {
       resultRows = results.rows;
-      if (resultRows.length < 1) {
-        res.status(404).json({ message: "no entries found for given type" });
-      } else {
-        res.status(200).json(resultRows);
-      }
+
+      res.status(200).json(resultRows);
     })
     .catch(() => {
       res.status(500).json({ message: "error accessing database" });
@@ -112,11 +94,7 @@ router.get("/comment", verifyToken, (req, res) => {
   db.query(queries.filterComment(uid, comment))
     .then((results) => {
       resultRows = results.rows;
-      if (resultRows.length < 1) {
-        res.status(404).json({ message: "no entries found for given type" });
-      } else {
-        res.status(200).json(resultRows);
-      }
+      res.status(200).json(resultRows);
     })
     .catch(() => {
       res.status(500).json({ message: "error accessing database" });
