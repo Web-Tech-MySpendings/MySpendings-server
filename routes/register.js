@@ -29,7 +29,6 @@ router.post("/", checkNewUser, hash.createHash, (req, res) => {
         .catch(() => {
             res.status(500).json({ message: "database error occured" });
         })
-
 })
 
 module.exports = router;
